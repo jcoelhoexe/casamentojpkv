@@ -1,287 +1,370 @@
+<!--
+  ============================================================================
+  SITE DE CASAMENTO — Kamilly Victorya & Joao Pedro
+  17 de setembro de 2026
+
+  Desenvolvido por KenayTech.
+  Todos os direitos de desenvolvimento deste site pertencem à KenayTech.
+  ============================================================================
+
+  GUIA RÁPIDO PARA O JOÃO EDITAR O SITE
+  --------------------------------------
+  Você não precisa mexer em quase nada deste arquivo. As informações que
+  mudam com mais frequência (datas, endereços, prazo de confirmação,
+  WhatsApp, chave Pix e o link da planilha) estão TODAS juntas em um único
+  lugar, dentro da tag <script> no final do arquivo, num bloco chamado
+  "CONFIG" — procure por:
+
+        const CONFIG = {
+
+  Basta trocar o texto entre aspas de cada linha e salvar. O site inteiro
+  (hero, seção "Nosso Casamento", "Depois do Sim", confirmação de presença
+  e rodapé) atualiza sozinho a partir dali — não é preciso editar em vários
+  lugares.
+
+  Outras coisas que você pode querer mudar, e onde encontrá-las:
+    - Lista de presentes e preços  -> array "GIFTS" (logo abaixo do CONFIG)
+    - Cores do site                -> topo do <style>, dentro de ":root"
+    - Textos fixos (frases, título da lista de presentes, etc.) -> procure
+      o texto diretamente no HTML, abaixo, dentro de <body>.
+
+  O restante do arquivo é estrutura (HTML/CSS) e funcionamento (JavaScript)
+  e não costuma precisar de alterações no dia a dia.
+  ============================================================================
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>João Pedro & Kamilly Victorya — 17 de setembro de 2026</title>
+<title>Kamilly Victorya & Joao Pedro — 17 de setembro de 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ============================================================
+     PALETA DE CORES DO SITE
+     Estas são as únicas variáveis de cor usadas no site inteiro —
+     para trocar uma cor em todo lugar de uma vez, troque aqui.
+       --navy   : azul-marinho escuro  (títulos, textos fortes, botões)
+       --dusty  : azul-poeira          (bordas, ícones, divisores)
+       --pale   : azul bem claro       (fundos suaves, cards)
+       --cream  : creme                (fundo geral das seções claras)
+       --gold   : dourado              (detalhes/destaques pontuais)
+       --ink    : azul-acinzentado     (texto corrido/parágrafos)
+     ============================================================ */
   :root{
-    --forest: #223626;
-    --forest-deep: #16241a;
-    --forest-soft: #3f5945;
-    --cream: #F4F0E4;
-    --ivory: #FBF9F3;
-    --gold: #AD8B57;
-    --gold-soft: #D9C9A3;
-    --ink: #221F1A;
-    --line: rgba(34,54,38,0.16);
-    --shadow: 0 18px 40px rgba(22,36,26,0.14);
+    --navy: #1F3B5C;
+    --navy-deep: #152A40;
+    --dusty: #7FA0C9;
+    --dusty-soft: #B9CEE5;
+    --pale: #E4ECF6;
+    --cream: #FBF9F5;
+    --gold: #B99958;
+    --ink: #33475E;
+    --line: rgba(31,59,92,0.18);
+    --shadow: 0 18px 40px rgba(31,59,92,0.14);
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
-    font-family:'Jost', sans-serif;
+    font-family:'EB Garamond', serif;
     color:var(--ink);
-    background:var(--cream);
+    background:var(--pale);
     font-weight:400;
-    line-height:1.6;
+    line-height:1.65;
+    font-size:1.08rem;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3,.serif{
-    font-family:'Cormorant Garamond', serif;
-    font-weight:500;
-    color:var(--forest-deep);
+  h1,h2,h3{font-family:'EB Garamond', serif; font-weight:500; color:var(--navy);}
+  .script{font-family:'Alex Brush', cursive; color:var(--navy); line-height:1;}
+  .label{
+    font-family:'Jost', sans-serif; text-transform:uppercase; letter-spacing:0.14em;
+    font-size:0.82rem; color:var(--navy); font-weight:500;
   }
   a{color:inherit; text-decoration:none;}
   img{max-width:100%; display:block;}
   button{font-family:inherit; cursor:pointer;}
   .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
 
+  /* ---------- HEART DIVIDER ---------- */
+  .divider{display:flex; align-items:center; justify-content:center; gap:14px; margin:14px 0 28px;}
+  .divider::before, .divider::after{content:''; width:52px; height:1px; background:var(--dusty);}
+  .divider span{color:var(--gold); font-size:1rem;}
+
+  /* ---------- FRAME (referência ao cartão de convite) ---------- */
+  .frame-outer{max-width:1000px; margin:28px auto; padding:6px; border:1px solid var(--dusty-soft); background:var(--cream);}
+  .frame-inner{border:1px solid var(--navy); position:relative; overflow:hidden;}
+
   /* ---------- NAV ---------- */
   header.nav{
     position:sticky; top:0; z-index:50;
-    background:rgba(251,249,243,0.92);
+    background:rgba(251,249,245,0.94);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
   .nav-inner{
-    max-width:1120px; margin:0 auto; padding:18px 32px;
+    max-width:1000px; margin:0 auto; padding:16px 32px;
     display:flex; align-items:center; justify-content:space-between;
   }
-  .monogram{
-    font-family:'Cormorant Garamond', serif;
-    font-size:1.5rem; letter-spacing:0.06em; color:var(--forest-deep);
-  }
-  .monogram span{color:var(--gold);}
-  nav.links{display:flex; gap:36px;}
+  .monogram{font-family:'Alex Brush', cursive; font-size:1.7rem; color:var(--navy);}
+  .monogram span{color:var(--gold); font-family:'EB Garamond', serif; font-style:italic;}
+  nav.links{display:flex; gap:32px;}
   nav.links a{
-    font-size:0.92rem; letter-spacing:0.02em; color:var(--forest);
-    position:relative; padding-bottom:4px;
-    transition:color .2s ease;
+    font-family:'Jost', sans-serif; font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--navy); position:relative; padding-bottom:4px;
   }
   nav.links a::after{
     content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
     background:var(--gold); transition:width .25s ease;
   }
-  nav.links a:hover{color:var(--forest-deep);}
   nav.links a:hover::after{width:100%;}
-  .nav-toggle{display:none; background:none; border:none; font-size:1.6rem; color:var(--forest-deep);}
+
+  /* ---------- FLORAL CORNERS ---------- */
+  .floral{position:absolute; width:260px; height:260px; pointer-events:none; opacity:0.9; z-index:0;}
+  .floral.tr{top:-18px; right:-18px;}
+  .floral.bl{bottom:-18px; left:-18px; transform:rotate(180deg);}
+  .floral.br{bottom:-18px; right:-18px; transform:scaleX(-1);}
+  @media (max-width:640px){ .floral{width:150px; height:150px;} }
 
   /* ---------- HERO ---------- */
   .hero{
-    position:relative;
-    min-height:92vh;
-    display:flex; align-items:flex-end;
-    background:
-      radial-gradient(1100px 700px at 15% 10%, rgba(255,255,255,0.06), transparent 60%),
-      linear-gradient(180deg, rgba(22,36,26,0.55) 0%, rgba(22,36,26,0.30) 40%, rgba(22,36,26,0.78) 100%),
-      var(--forest-deep);
-    overflow:hidden;
-    padding:120px 0 64px;
+    position:relative; text-align:center; padding:88px 32px 70px;
   }
-  .hero-branches{
-    position:absolute; inset:0; opacity:0.55; pointer-events:none;
-  }
-  .hero-inner{
-    position:relative; z-index:2; max-width:1120px; margin:0 auto; padding:0 32px; width:100%;
-  }
+  .hero-inner{position:relative; z-index:2; max-width:640px; margin:0 auto;}
   .hero-eyebrow{
-    color:var(--gold-soft); font-size:0.95rem; letter-spacing:0.04em; margin-bottom:18px;
+    font-family:'EB Garamond', serif; font-style:italic; color:var(--ink);
+    font-size:1.05rem; line-height:1.7; margin-bottom:28px; letter-spacing:0.01em;
   }
-  .hero h1{
-    font-size:clamp(3.2rem, 9vw, 7rem);
-    line-height:0.98;
-    color:var(--ivory);
-    font-weight:400;
-    letter-spacing:0.005em;
+  .heart-mark{color:var(--gold); font-size:1.3rem; margin-bottom:18px;}
+  .hero-names{font-family:'Alex Brush', cursive; color:var(--navy); font-size:clamp(3.4rem, 9vw, 5.6rem); line-height:1.05;}
+  .hero-amp{
+    display:flex; align-items:center; justify-content:center; gap:18px;
+    margin:6px 0; color:var(--gold); font-family:'EB Garamond', serif; font-style:italic; font-size:1.6rem;
   }
-  .hero h1 em{font-style:italic; color:var(--gold-soft); font-weight:400;}
-  .hero-sub{
-    margin-top:26px; color:rgba(251,249,243,0.86);
-    font-size:1.05rem; max-width:36ch;
+  .hero-amp::before, .hero-amp::after{content:''; width:70px; height:1px; background:var(--dusty);}
+  .hero-sub{margin-top:26px; color:var(--ink); font-size:1rem; max-width:38ch; margin-left:auto; margin-right:auto;}
+  .hero-cta{margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;}
+  .hero-days-note{
+    margin-top:30px; font-family:'Jost', sans-serif; font-size:0.8rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--dusty);
   }
-  .hero-cta{
-    margin-top:38px; display:flex; gap:16px; flex-wrap:wrap;
-  }
+  .hero-days-note strong{color:var(--navy); font-size:1rem; letter-spacing:0;}
+
   .btn{
     display:inline-flex; align-items:center; gap:8px;
-    padding:14px 28px; font-size:0.92rem; letter-spacing:0.02em;
+    padding:14px 30px; font-family:'Jost', sans-serif; font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase;
     border-radius:2px; border:1px solid transparent;
     transition:all .2s ease;
   }
-  .btn-primary{background:var(--gold); color:var(--forest-deep);}
-  .btn-primary:hover{background:var(--gold-soft);}
-  .btn-outline{border-color:rgba(251,249,243,0.55); color:var(--ivory);}
-  .btn-outline:hover{background:rgba(251,249,243,0.1); border-color:var(--ivory);}
-  .btn-dark{background:var(--forest-deep); color:var(--ivory);}
-  .btn-dark:hover{background:var(--forest);}
-  .btn-ghost{border-color:var(--line); color:var(--forest-deep); background:transparent;}
-  .btn-ghost:hover{background:rgba(173,139,87,0.08); border-color:var(--gold);}
-  .btn:disabled{opacity:0.5; cursor:not-allowed;}
+  .btn-primary{background:var(--navy); color:var(--cream);}
+  .btn-primary:hover{background:var(--navy-deep);}
+  .btn-outline{border-color:var(--navy); color:var(--navy); background:transparent;}
+  .btn-outline:hover{background:var(--pale);}
+  .btn-ghost{border-color:var(--line); color:var(--navy); background:transparent;}
+  .btn-ghost:hover{background:var(--pale); border-color:var(--dusty);}
+  .btn:disabled{opacity:0.45; cursor:not-allowed;}
 
   /* ---------- SECTION HEADERS ---------- */
-  section{padding:110px 0;}
-  .section-head{max-width:640px; margin-bottom:56px;}
-  .section-head .kicker{color:var(--gold); font-size:0.9rem; margin-bottom:10px; display:block;}
-  .section-head h2{font-size:clamp(2.2rem, 4vw, 3.1rem); font-weight:500;}
-  .section-head p{margin-top:16px; color:var(--forest-soft); font-size:1.02rem;}
+  section{padding:76px 0;}
+  .section-head{max-width:560px; margin:0 auto 12px; text-align:center;}
+  .section-head h2{font-size:clamp(1.7rem, 3vw, 2.2rem); font-weight:500;}
+  .section-head p{margin-top:14px; color:var(--ink); font-size:1rem;}
 
-  /* ---------- WEDDING INFO ---------- */
-  .info{background:var(--ivory); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
-  .info-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:72px; align-items:start;}
-  .detail-card{
-    display:flex; gap:20px; padding:26px 0; border-bottom:1px solid var(--line);
-  }
-  .detail-card:last-child{border-bottom:none;}
+  /* ---------- WEDDING INFO (Nosso Casamento / Depois do Sim) ---------- */
+  .info{border-top:1px solid var(--line);}
+  .info-grid{display:grid; grid-template-columns:1fr 1px 1fr; gap:0;}
+  .info-col{padding:0 44px;}
+  .info-col + .info-col{border-left:0;}
+  .info-divider{background:var(--line);}
+  .info-col h3.label{text-align:center; margin-bottom:6px;}
+  .detail-card{display:flex; gap:16px; padding:20px 0;}
   .detail-icon{
-    width:46px; height:46px; border-radius:50%;
-    border:1px solid var(--gold); color:var(--gold);
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid var(--dusty); color:var(--navy);
     display:flex; align-items:center; justify-content:center;
-    flex-shrink:0; font-family:'Cormorant Garamond', serif; font-size:1.3rem;
+    flex-shrink:0; font-size:1.1rem;
   }
-  .detail-card h3{font-size:1.3rem; font-weight:500; margin-bottom:4px;}
-  .detail-card p{color:var(--forest-soft); font-size:0.98rem;}
+  .detail-card h4{font-size:1.15rem; font-weight:500; color:var(--navy); margin-bottom:2px;}
+  .detail-card p{color:var(--ink); font-size:0.94rem;}
   .arrival-note{
-    margin-top:6px; padding:10px 14px; background:rgba(173,139,87,0.12);
-    display:inline-block; font-size:0.88rem; color:var(--forest-deep); border-left:2px solid var(--gold);
+    margin-top:6px; padding:8px 12px; background:var(--pale);
+    display:inline-block; font-size:0.85rem; color:var(--navy); border-left:2px solid var(--gold);
+  }
+  .dinner-note{text-align:center; color:var(--ink); font-size:0.95rem; margin-bottom:18px;}
+  .dinner-tag{
+    text-align:center; font-family:'Alex Brush', cursive; font-size:2.1rem; color:var(--navy);
+    background:var(--pale); padding:10px 0; margin-bottom:16px;
+  }
+  .dinner-box{border:1px solid var(--dusty-soft); padding:18px 22px; margin-top:6px;}
+
+  @media (max-width:820px){
+    .info-grid{grid-template-columns:1fr;}
+    .info-divider{display:none;}
+    .info-col{padding:36px 8px; border-top:1px solid var(--line);}
+    .info-col:first-child{border-top:none;}
   }
 
   .countdown-box{
-    background:var(--forest-deep); color:var(--ivory);
-    padding:44px 36px; position:relative;
+    max-width:560px; margin:56px auto 0; background:var(--navy); color:var(--cream);
+    padding:34px 30px; text-align:center;
   }
-  .countdown-box .serif{font-size:1.4rem; margin-bottom:26px; color:var(--gold-soft);}
-  .countdown-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; text-align:center;}
-  .countdown-grid div span{
-    display:block; font-family:'Cormorant Garamond', serif; font-size:2.6rem; font-weight:500;
-  }
-  .countdown-grid div small{font-size:0.72rem; letter-spacing:0.08em; color:rgba(251,249,243,0.6);}
-  .countdown-grid div{border-right:1px solid rgba(251,249,243,0.15);}
+  .countdown-box .script{font-size:1.6rem; color:var(--dusty-soft); margin-bottom:20px;}
+  .countdown-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px;}
+  .countdown-grid div span{display:block; font-family:'EB Garamond', serif; font-size:2.2rem; font-weight:500;}
+  .countdown-grid div small{font-family:'Jost',sans-serif; font-size:0.68rem; letter-spacing:0.1em; color:rgba(251,249,245,0.6);}
+  .countdown-grid div{border-right:1px solid rgba(251,249,245,0.18);}
   .countdown-grid div:last-child{border-right:none;}
 
-  @media (max-width:860px){
-    .info-grid{grid-template-columns:1fr;}
+  /* ---------- RSVP ---------- */
+  .rsvp{background:var(--pale); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .rsvp-card{max-width:480px; margin:0 auto; background:var(--cream); border:1px solid var(--dusty-soft); padding:34px 30px;}
+  .rsvp-deadline{
+    text-align:center; font-family:'Jost',sans-serif; letter-spacing:0.06em; font-size:0.92rem;
+    color:var(--navy); margin-bottom:26px;
   }
+  .rsvp-deadline strong{color:var(--gold);}
+  .field{margin-bottom:20px;}
+  .field label{display:block; font-family:'Jost',sans-serif; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy); margin-bottom:8px;}
+  .field input{
+    width:100%; padding:13px 14px; border:1px solid var(--line); background:var(--pale);
+    font-family:'EB Garamond', serif; font-size:1rem; color:var(--ink); border-radius:2px;
+  }
+  .field input:focus{outline:none; border-color:var(--gold);}
+
+  .rsvp-options{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;}
+  .rsvp-option{
+    border:1px solid var(--line); background:var(--pale); padding:20px 14px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:8px; transition:all .2s ease;
+  }
+  .rsvp-option .badge{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--dusty); color:var(--navy);
+    display:flex; align-items:center; justify-content:center; font-family:'EB Garamond',serif; font-size:1.05rem;
+  }
+  .rsvp-option .rt{font-family:'EB Garamond', serif; font-weight:500; color:var(--navy); font-size:1.02rem;}
+  .rsvp-option .rd{font-size:0.82rem; color:var(--ink); line-height:1.4;}
+  .rsvp-option:hover{border-color:var(--dusty);}
+  .rsvp-option.selected{background:var(--navy); border-color:var(--navy);}
+  .rsvp-option.selected .badge{border-color:var(--dusty-soft); color:var(--cream);}
+  .rsvp-option.selected .rt, .rsvp-option.selected .rd{color:var(--cream);}
+
+  .rsvp-whatsapp{
+    text-align:center; margin-top:20px; font-size:0.88rem; color:var(--ink);
+  }
+  .rsvp-whatsapp a{color:var(--navy); border-bottom:1px solid var(--gold);}
 
   /* ---------- GIFTS ---------- */
   .gifts{background:var(--cream);}
   .gift-toolbar{
     display:flex; gap:18px; flex-wrap:wrap; align-items:center; justify-content:space-between;
-    margin-bottom:36px;
+    margin-bottom:32px;
   }
   .search-input{
-    flex:1; min-width:240px; padding:13px 18px; border:1px solid var(--line);
-    background:var(--ivory); font-family:inherit; font-size:0.95rem; color:var(--ink);
+    flex:1; min-width:240px; padding:13px 16px; border:1px solid var(--line);
+    background:var(--pale); font-family:inherit; font-size:0.98rem; color:var(--ink);
     border-radius:2px;
   }
   .search-input:focus{outline:none; border-color:var(--gold);}
   .tabs{display:flex; gap:8px; flex-wrap:wrap;}
   .tab-btn{
-    padding:9px 18px; border:1px solid var(--line); background:var(--ivory);
-    font-size:0.86rem; color:var(--forest-soft); border-radius:2px; transition:all .2s ease;
+    padding:9px 16px; border:1px solid var(--line); background:var(--pale);
+    font-family:'Jost',sans-serif; font-size:0.8rem; letter-spacing:0.04em; color:var(--navy); border-radius:2px; transition:all .2s ease;
   }
-  .tab-btn.active, .tab-btn:hover{background:var(--forest-deep); color:var(--ivory); border-color:var(--forest-deep);}
+  .tab-btn.active, .tab-btn:hover{background:var(--navy); color:var(--cream); border-color:var(--navy);}
 
   .gift-category{margin-bottom:12px;}
   .gift-category-title{
     display:flex; justify-content:space-between; align-items:baseline;
-    padding:14px 0 10px; border-bottom:1px solid var(--gold-soft);
-    margin-top:38px;
+    padding:12px 0 10px; border-bottom:1px solid var(--dusty-soft);
+    margin-top:34px;
   }
-  .gift-category-title h3{font-size:1.5rem; font-weight:500;}
-  .gift-category-title span{font-size:0.85rem; color:var(--forest-soft);}
+  .gift-category-title h3{font-size:1.35rem; font-weight:500;}
+  .gift-category-title span{font-family:'Jost',sans-serif; font-size:0.78rem; color:var(--dusty);}
 
   .gift-row{
-    display:flex; align-items:center; gap:18px; padding:18px 4px;
+    display:flex; align-items:center; gap:18px; padding:16px 4px;
     border-bottom:1px solid var(--line);
   }
   .gift-badge{
-    width:48px; height:48px; border-radius:50%; flex-shrink:0;
-    background:var(--forest-deep); color:var(--gold-soft);
+    width:44px; height:44px; border-radius:50%; flex-shrink:0;
+    background:var(--navy); color:var(--dusty-soft);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Cormorant Garamond', serif; font-size:1.3rem;
+    font-family:'EB Garamond', serif; font-size:1.2rem;
   }
   .gift-info{flex:1; min-width:0;}
-  .gift-info h4{font-size:1.05rem; font-weight:500; color:var(--ink); margin-bottom:2px;}
-  .gift-info p{font-size:0.88rem; color:var(--forest-soft);}
-  .gift-status{font-size:0.78rem; color:var(--gold); margin-top:3px; display:none;}
+  .gift-info h4{font-size:1.02rem; font-weight:500; color:var(--navy); margin-bottom:2px;}
+  .gift-info p{font-size:0.86rem; color:var(--ink);}
+  .gift-status{font-family:'Jost',sans-serif; font-size:0.74rem; color:var(--gold); margin-top:3px; display:none; letter-spacing:0.04em;}
   .gift-row.confirmed .gift-status{display:block;}
 
   /* ---------- HOW IT WORKS ---------- */
-  .how{background:var(--forest-deep); color:var(--ivory);}
-  .how .section-head h2{color:var(--ivory);}
-  .how .section-head p{color:rgba(251,249,243,0.72);}
-  .how .section-head .kicker{color:var(--gold-soft);}
-  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:44px;}
-  .step-num{font-family:'Cormorant Garamond', serif; font-size:2.4rem; color:var(--gold-soft); margin-bottom:14px;}
-  .step h3{color:var(--ivory); font-size:1.25rem; margin-bottom:10px;}
-  .step p{color:rgba(251,249,243,0.68); font-size:0.94rem;}
-  @media (max-width:820px){.steps{grid-template-columns:1fr; gap:36px;}}
+  .how{background:var(--navy); color:var(--cream);}
+  .how .section-head h2{color:var(--cream);}
+  .how .section-head p{color:rgba(251,249,245,0.75);}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:40px; max-width:900px; margin:0 auto;}
+  .step{text-align:center;}
+  .step-num{font-family:'Alex Brush', cursive; font-size:2.2rem; color:var(--dusty-soft); margin-bottom:10px;}
+  .step h3{color:var(--cream); font-size:1.2rem; margin-bottom:8px; font-weight:500;}
+  .step p{color:rgba(251,249,245,0.7); font-size:0.92rem;}
+  @media (max-width:820px){.steps{grid-template-columns:1fr; gap:32px;}}
 
   /* ---------- REGISTRY / CONFIRMED ---------- */
-  .registry{background:var(--ivory); border-top:1px solid var(--line);}
-  .registry-list{border-top:1px solid var(--line);}
+  .registry{background:var(--cream); border-top:1px solid var(--line);}
+  .registry-list{border-top:1px solid var(--line); max-width:640px; margin:0 auto;}
   .registry-item{
-    display:flex; justify-content:space-between; gap:16px; padding:16px 4px;
-    border-bottom:1px solid var(--line); font-size:0.92rem;
+    display:flex; justify-content:space-between; gap:16px; padding:14px 4px;
+    border-bottom:1px solid var(--line); font-size:0.9rem;
   }
-  .registry-item .r-gift{color:var(--ink); font-weight:500;}
-  .registry-item .r-from{color:var(--forest-soft);}
-  .registry-empty{padding:28px 4px; color:var(--forest-soft); font-size:0.92rem;}
+  .registry-item .r-gift{color:var(--navy); font-weight:500;}
+  .registry-item .r-from{color:var(--ink);}
+  .registry-empty{padding:24px 4px; text-align:center; color:var(--ink); font-size:0.92rem;}
 
   footer{
-    background:var(--forest-deep); color:rgba(251,249,243,0.6);
-    padding:48px 0; text-align:center; font-size:0.85rem;
+    background:var(--navy); color:rgba(251,249,245,0.7);
+    padding:44px 0; text-align:center; font-size:0.86rem;
   }
-  footer .monogram2{font-family:'Cormorant Garamond', serif; color:var(--gold-soft); font-size:1.3rem; margin-bottom:10px;}
+  footer .monogram2{font-family:'Alex Brush', cursive; color:var(--dusty-soft); font-size:1.6rem; margin-bottom:8px;}
+  footer .thanks{font-family:'EB Garamond', serif; font-style:italic; color:var(--cream); margin-top:10px; font-size:1rem;}
 
   /* ---------- MODAL ---------- */
   .modal-overlay{
-    position:fixed; inset:0; background:rgba(22,36,26,0.6);
+    position:fixed; inset:0; background:rgba(21,42,64,0.62);
     display:none; align-items:center; justify-content:center; z-index:100; padding:24px;
   }
   .modal-overlay.open{display:flex;}
   .modal{
-    background:var(--ivory); max-width:440px; width:100%; max-height:88vh; overflow-y:auto;
-    padding:38px; position:relative; box-shadow:var(--shadow);
+    background:var(--cream); max-width:440px; width:100%; max-height:88vh; overflow-y:auto;
+    padding:36px; position:relative; box-shadow:var(--shadow); border:1px solid var(--dusty-soft);
   }
   .modal-close{
     position:absolute; top:16px; right:16px; background:none; border:none;
-    font-size:1.4rem; color:var(--forest-soft); line-height:1;
+    font-size:1.4rem; color:var(--ink); line-height:1;
   }
-  .modal h3{font-size:1.6rem; margin-bottom:4px;}
-  .modal .modal-price{color:var(--gold); font-size:1.05rem; margin-bottom:22px;}
-  .field{margin-bottom:18px;}
-  .field label{display:block; font-size:0.85rem; color:var(--forest-soft); margin-bottom:6px;}
-  .field input{
-    width:100%; padding:12px 14px; border:1px solid var(--line); background:var(--cream);
-    font-family:inherit; font-size:0.95rem; border-radius:2px;
-  }
-  .field input:focus{outline:none; border-color:var(--gold);}
+  .modal h3{font-size:1.5rem; margin-bottom:4px;}
+  .modal .modal-price{color:var(--gold); font-family:'Jost',sans-serif; font-size:0.95rem; margin-bottom:20px;}
   .qr-wrap{display:none; text-align:center; margin-top:8px;}
   .qr-wrap.show{display:block;}
   #qrcode-canvas{display:inline-block; margin:14px auto; padding:14px; background:#fff;}
   .pix-code-box{
-    background:var(--cream); border:1px solid var(--line); padding:10px 12px;
-    font-size:0.76rem; word-break:break-all; color:var(--forest-soft); margin:12px 0;
+    background:var(--pale); border:1px solid var(--line); padding:10px 12px;
+    font-size:0.75rem; word-break:break-all; color:var(--ink); margin:12px 0;
     max-height:70px; overflow-y:auto;
   }
-  .modal-note{font-size:0.82rem; color:var(--forest-soft); margin-top:14px; line-height:1.55;}
+  .modal-note{font-size:0.8rem; color:var(--ink); margin-top:14px; line-height:1.55;}
   .confirm-msg{
-    display:none; margin-top:16px; padding:12px 14px; background:rgba(173,139,87,0.15);
-    border-left:2px solid var(--gold); font-size:0.88rem; color:var(--forest-deep);
+    display:none; margin-top:16px; padding:12px 14px; background:var(--pale);
+    border-left:2px solid var(--gold); font-size:0.88rem; color:var(--navy);
   }
   .confirm-msg.show{display:block;}
 
   @media (max-width:640px){
     nav.links{display:none;}
-    .hero{padding:100px 0 48px;}
-    section{padding:76px 0;}
+    .hero{padding:64px 20px 48px;}
+    section{padding:56px 0;}
     .wrap{padding:0 20px;}
+    .info-col{padding:36px 20px;}
+    .rsvp-options{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -289,143 +372,234 @@
 
 <header class="nav">
   <div class="nav-inner">
-    <div class="monogram">JP <span>&amp;</span> KV</div>
+    <div class="monogram">KV <span>&amp;</span> JP</div>
     <nav class="links">
       <a href="#inicio">início</a>
       <a href="#casamento">casamento</a>
-      <a href="#presentes">lista de presentes</a>
+      <a href="#confirmar">confirmar presença</a>
+      <a href="#presentes">presentes</a>
     </nav>
   </div>
 </header>
 
-<section class="hero" id="inicio">
-  <svg class="hero-branches" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <g stroke="#D9C9A3" stroke-width="1.2" fill="none" opacity="0.5">
-      <path d="M-20,60 C120,110 180,40 260,90 C330,130 300,200 380,220"/>
-      <path d="M40,120 C90,150 100,190 70,230"/>
-      <path d="M1220,700 C1080,650 1040,720 950,670 C880,630 910,560 830,540"/>
-      <path d="M1150,640 C1100,610 1090,570 1120,530"/>
+<div class="frame-outer">
+<div class="frame-inner">
+
+  <svg class="floral tr" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#7FA0C9" stroke-width="1.4" opacity="0.55">
+      <path d="M260,30 C210,55 190,20 150,50 C120,72 130,110 95,130"/>
+      <path d="M260,80 C220,95 210,130 180,150"/>
+      <path d="M225,10 C205,35 215,60 190,75"/>
     </g>
-    <g fill="#D9C9A3" opacity="0.45">
-      <circle cx="255" cy="88" r="5"/><circle cx="300" cy="150" r="4"/><circle cx="378" cy="219" r="5"/>
-      <circle cx="945" cy="668" r="5"/><circle cx="905" cy="600" r="4"/><circle cx="828" cy="538" r="5"/>
+    <g opacity="0.85">
+      <circle cx="205" cy="35" r="16" fill="#B9CEE5"/>
+      <circle cx="230" cy="60" r="20" fill="#7FA0C9"/>
+      <circle cx="180" cy="20" r="13" fill="#E4ECF6"/>
+      <circle cx="245" cy="20" r="11" fill="#B9CEE5"/>
+      <circle cx="150" cy="55" r="9" fill="#E4ECF6"/>
+    </g>
+    <g fill="#B99958" opacity="0.6">
+      <circle cx="205" cy="35" r="2.4"/><circle cx="230" cy="60" r="2.4"/><circle cx="120" cy="90" r="2.4"/>
     </g>
   </svg>
-  <div class="hero-inner">
-    <span class="hero-eyebrow">Faltam <span id="hero-days">--</span> dias · quinta-feira, 17 de setembro de 2026</span>
-    <h1>João Pedro <em>&amp;</em><br>Kamilly Victorya</h1>
-    <p class="hero-sub">Vamos nos casar no civil e adorávamos ter você por perto para celebrar com a gente.</p>
-    <div class="hero-cta">
-      <a href="#presentes" class="btn btn-primary">Lista de presentes</a>
-    </div>
-  </div>
-</section>
 
-<section class="info" id="casamento">
-  <div class="wrap info-grid">
-    <div>
-      <div class="section-head" style="margin-bottom:8px;">
-        <span class="kicker">o casamento</span>
-        <h2>Um sim simples, cercado de gente querida</h2>
-        <p>A cerimônia será no cartório, de forma intimista. Contamos com a sua presença para tornar esse dia ainda mais especial.</p>
+  <svg class="floral bl" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#7FA0C9" stroke-width="1.4" opacity="0.55">
+      <path d="M260,30 C210,55 190,20 150,50 C120,72 130,110 95,130"/>
+      <path d="M260,80 C220,95 210,130 180,150"/>
+    </g>
+    <g opacity="0.85">
+      <circle cx="205" cy="35" r="16" fill="#B9CEE5"/>
+      <circle cx="230" cy="60" r="20" fill="#7FA0C9"/>
+      <circle cx="180" cy="20" r="13" fill="#E4ECF6"/>
+      <circle cx="150" cy="55" r="9" fill="#E4ECF6"/>
+    </g>
+  </svg>
+
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <div class="heart-mark">&#9825;</div>
+      <p class="hero-eyebrow">Com muita alegria, convidamos você para celebrar conosco<br>o início de uma nova etapa das nossas vidas.</p>
+      <div class="hero-names" id="cfg-bride-name">Kamilly Victorya</div>
+      <div class="hero-amp">&amp;</div>
+      <div class="hero-names" id="cfg-groom-name">Joao Pedro</div>
+      <p class="hero-sub">Vamos nos casar no civil e adoraríamos ter você por perto para celebrar com a gente.</p>
+      <div class="hero-cta">
+        <a href="#confirmar" class="btn btn-primary">Confirmar presença</a>
+        <a href="#presentes" class="btn btn-outline">Lista de presentes</a>
       </div>
+      <div class="hero-days-note">Faltam <strong id="hero-days">--</strong> dias · <span id="cfg-wedding-date-full">quinta-feira, 17 de setembro de 2026</span></div>
+    </div>
+  </section>
 
-      <div class="detail-card">
-        <div class="detail-icon">&#9825;</div>
-        <div>
-          <h3>Cartório Silva</h3>
-          <p>Av. 85, 2451 — Qd. 231 — St. Marista<br>Goiânia — GO, 74160-010</p>
+  <section class="info" id="casamento">
+    <div class="wrap">
+      <div class="info-grid">
+        <div class="info-col">
+          <h3 class="label">Nosso Casamento</h3>
+          <div class="divider"><span>&#9825;</span></div>
+          <p style="text-align:center; font-family:'EB Garamond', serif; font-style:italic; color:var(--navy); font-size:1.02rem; margin-bottom:22px;">Um sim simples, cercado de gente querida.</p>
+
+          <div class="detail-card">
+            <div class="detail-icon">&#128197;</div>
+            <div>
+              <h4 id="cfg-date-title">17 de setembro de 2026</h4>
+              <p id="cfg-weekday">(quinta-feira)</p>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">&#128337;</div>
+            <div>
+              <h4 id="cfg-time-title">Às 16h30</h4>
+              <p id="cfg-arrival-text">Chegue com pelo menos 10 minutos de antecedência (às 16h20).</p>
+            </div>
+          </div>
+          <div class="detail-card">
+            <div class="detail-icon">&#9679;</div>
+            <div>
+              <h4 id="cfg-cartorio-name">Cartório Silva</h4>
+              <p id="cfg-cartorio-address">Av. 85, 2451 — Qd. 231 — St. Marista<br>Goiânia — GO, 74160-010</p>
+            </div>
+          </div>
+          <p style="text-align:center; font-size:0.9rem; color:var(--ink); margin-top:18px;">Contamos com sua pontualidade para que possamos iniciar a cerimônia no horário previsto.</p>
+        </div>
+
+        <div class="info-col">
+          <h3 class="label">Depois do "Sim"…</h3>
+          <div class="divider"><span>&#9825;</span></div>
+          <p class="dinner-note">Após a cerimônia, vamos continuar a comemoração com um jantar especial!</p>
+          <div class="dinner-tag">Jantar</div>
+          <div class="dinner-box">
+            <div class="detail-card">
+              <div class="detail-icon">&#9679;</div>
+              <div>
+                <h4 id="cfg-dinner-address">Av. Nadra Bufaiçal, Qd. 85 Lt.21</h4>
+                <p id="cfg-dinner-city">St. Faicalville — Goiânia — GO, 74350-750</p>
+              </div>
+            </div>
+            <div class="detail-card">
+              <div class="detail-icon">&#128337;</div>
+              <div>
+                <h4 id="cfg-dinner-time">Às 18h00</h4>
+                <p>Sairemos do cartório e seguiremos diretamente para o local do jantar.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="detail-card">
-        <div class="detail-icon">&#128337;</div>
-        <div>
-          <h3>17 de setembro de 2026, às 16h30</h3>
-          <p>Quinta-feira</p>
-          <span class="arrival-note">Pedimos que chegue com 15 minutos de antecedência, às 16h15.</span>
-        </div>
-      </div>
-      <div class="detail-card">
-        <div class="detail-icon">&#10024;</div>
-        <div>
-          <h3>Traje</h3>
-          <p>Esporte fino — venha confortável e elegante.</p>
+
+      <div class="countdown-box">
+        <div class="script">Contagem regressiva</div>
+        <div class="countdown-grid">
+          <div><span id="cd-days">00</span><small>DIAS</small></div>
+          <div><span id="cd-hours">00</span><small>HORAS</small></div>
+          <div><span id="cd-min">00</span><small>MIN</small></div>
+          <div><span id="cd-sec">00</span><small>SEG</small></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="countdown-box">
-      <div class="serif">Contagem regressiva</div>
-      <div class="countdown-grid">
-        <div><span id="cd-days">00</span><small>dias</small></div>
-        <div><span id="cd-hours">00</span><small>horas</small></div>
-        <div><span id="cd-min">00</span><small>min</small></div>
-        <div><span id="cd-sec">00</span><small>seg</small></div>
+  <section class="rsvp" id="confirmar">
+    <div class="wrap">
+      <div class="section-head">
+        <h3 class="label">Confirme sua presença</h3>
+        <div class="divider"><span>&#9825;</span></div>
+        <p>Para conseguirmos organizar tudo direitinho, pedimos que confirme sua presença até:</p>
+      </div>
+      <p class="rsvp-deadline">até <strong id="cfg-rsvp-deadline">11 de setembro de 2026</strong></p>
+
+      <div class="rsvp-card">
+        <div class="field">
+          <label for="rsvp-name">Seu nome completo</label>
+          <input type="text" id="rsvp-name" placeholder="Ex: Ana Souza">
+        </div>
+
+        <label class="label" style="display:block; margin-bottom:12px;">Como vai participar?</label>
+        <div class="rsvp-options">
+          <button type="button" class="rsvp-option" id="opt-cartorio" data-value="cartorio">
+            <span class="badge">C</span>
+            <span class="rt">Vou ao cartório</span>
+            <span class="rd">Estarei na cerimônia às 16h30 e sigo para o jantar</span>
+          </button>
+          <button type="button" class="rsvp-option" id="opt-jantar" data-value="jantar">
+            <span class="badge">J</span>
+            <span class="rt">Vou apenas ao jantar</span>
+            <span class="rd">Chego às 18h00 direto no jantar</span>
+          </button>
+        </div>
+
+        <button class="btn btn-primary" id="rsvp-submit" style="width:100%; justify-content:center;" disabled>Confirmar presença</button>
+        <div class="confirm-msg" id="rsvp-msg"></div>
+      </div>
+
+      <p class="rsvp-whatsapp">Prefere confirmar por mensagem? <a href="https://wa.me/556293088589" target="_blank" rel="noopener" id="cfg-whatsapp-link">Fale com a gente pelo WhatsApp</a></p>
+    </div>
+  </section>
+
+  <section class="gifts" id="presentes">
+    <div class="wrap">
+      <div class="section-head">
+        <h3 class="label">Lista de presentes</h3>
+        <div class="divider"><span>&#9825;</span></div>
+        <p>Escolha um presente, aponte a câmera do seu banco para o QR Code Pix e conclua o pagamento diretamente para a gente.</p>
+      </div>
+
+      <div class="gift-toolbar">
+        <input class="search-input" id="search-input" type="text" placeholder="Buscar entre 36 presentes">
+        <div class="tabs" id="tabs"></div>
+      </div>
+
+      <div id="gift-list"></div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="wrap">
+      <div class="section-head">
+        <h3 class="label" style="color:var(--dusty-soft);">Como presentear</h3>
+        <div class="divider" style="opacity:0.6;"><span>&#9825;</span></div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">um</div>
+          <h3>Escolha o presente</h3>
+          <p>Navegue pela lista e clique em "Presentear" no item que você quiser dar para o casal.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">dois</div>
+          <h3>Pague com Pix</h3>
+          <p>Aponte a câmera do seu banco para o QR Code e finalize o pagamento em segundos.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">três</div>
+          <h3>Confirme o presente</h3>
+          <p>Toque em "Já paguei" para avisar o casal — seu nome aparece no mural com carinho.</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="gifts" id="presentes">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">lista de presentes</span>
-      <h2>Um mimo para o início da nossa casa</h2>
-      <p>Escolha um presente, aponte a câmera do seu banco para o QR Code Pix e conclua o pagamento diretamente para a gente. Simples, seguro e sem taxas de intermediário.</p>
-    </div>
-
-    <div class="gift-toolbar">
-      <input class="search-input" id="search-input" type="text" placeholder="Buscar entre 36 presentes">
-      <div class="tabs" id="tabs"></div>
-    </div>
-
-    <div id="gift-list"></div>
-  </div>
-</section>
-
-<section class="how">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="kicker">como presentear</span>
-      <h2>Em três passos, simples assim</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">01</div>
-        <h3>Escolha o presente</h3>
-        <p>Navegue pela lista e clique em "Presentear" no item que você quiser dar de presente para o casal.</p>
+  <section class="registry">
+    <div class="wrap">
+      <div class="section-head">
+        <h3 class="label">Mural de presentes</h3>
+        <div class="divider"><span>&#9825;</span></div>
+        <p>Presentes já confirmados por nossos convidados queridos.</p>
       </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <h3>Pague com Pix</h3>
-        <p>Escaneie o QR Code gerado na hora, ou copie o código Pix, direto no app do seu banco.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <h3>Confirme para o casal</h3>
-        <p>Depois do pagamento, deixe seu nome registrado para que João Pedro e Kamilly saibam quem os presenteou.</p>
-      </div>
+      <div class="registry-list" id="registry-list"></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="registry">
-  <div class="wrap">
-    <div class="section-head" style="margin-bottom:24px;">
-      <span class="kicker">mural de presentes</span>
-      <h2>Presentes já confirmados</h2>
-      <p>Registro compartilhado dos presentes recebidos — visível para o casal e para os convidados.</p>
-    </div>
-    <div class="registry-list" id="registry-list">
-      <div class="registry-empty">Nenhum presente confirmado ainda. Seja o primeiro!</div>
-    </div>
-  </div>
-</section>
+  <footer>
+    <div class="monogram2" id="cfg-footer-names">Kamilly Victorya &amp; Joao Pedro</div>
+    <p id="cfg-footer-line">17 de setembro de 2026 · Cartório Silva, Av. 85, 2451, St. Marista, Goiânia — GO</p>
+    <p class="thanks">Com carinho, esperamos por você nesse dia tão especial.</p>
+    <p style="margin-top:18px; font-family:'Jost', sans-serif; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(251,249,245,0.4);">Desenvolvido por KenayTech</p>
+  </footer>
 
-<footer>
-  <div class="monogram2">JP &amp; KV</div>
-  <p>João Pedro &amp; Kamilly Victorya · 17 de setembro de 2026 · Cartório Silva, Av. 85, 2451, St. Marista, Goiânia — GO</p>
-</footer>
+</div>
+</div>
 
 <!-- ---------- MODAL ---------- -->
 <div class="modal-overlay" id="modal-overlay">
@@ -439,12 +613,12 @@
         <label for="giver-name">Seu nome (para o casal saber quem presenteou)</label>
         <input type="text" id="giver-name" placeholder="Ex: Ana Souza">
       </div>
-      <button class="btn btn-dark" id="generate-btn" style="width:100%; justify-content:center;">Gerar QR Code Pix</button>
+      <button class="btn btn-primary" id="generate-btn" style="width:100%; justify-content:center;">Gerar QR Code Pix</button>
     </div>
 
     <div class="qr-wrap" id="qr-wrap">
       <div id="qrcode-canvas"></div>
-      <p style="font-size:0.85rem; color:var(--forest-soft);">Chave Pix (telefone) · Nubank<br><strong id="pix-key-display" style="color:var(--forest-deep);">62 93088589</strong></p>
+      <p style="font-size:0.85rem; color:var(--ink);">Chave Pix (telefone) · Nubank<br><strong id="pix-key-display" style="color:var(--navy);">62 93088589</strong></p>
       <div class="pix-code-box" id="pix-code-text"></div>
       <button class="btn btn-ghost" id="copy-btn" style="width:100%; justify-content:center;">Copiar código Pix</button>
       <button class="btn btn-primary" id="confirm-btn" style="width:100%; justify-content:center; margin-top:10px;">Já paguei — confirmar presente</button>
@@ -456,17 +630,107 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-/* ===================== DATA ===================== */
-const PIX_KEY_DISPLAY = "62 93088589";
-const PIX_KEY_RAW = "+556293088589"; // chave tipo telefone, formato E.164 exigido pelo Pix
-const RECEIVER_NAME = "JOAO PEDRO E KAMILLY"; // max 25 caracteres, sem acentos
-const RECEIVER_CITY = "GOIANIA"; // max 15 caracteres, sem acentos
+/* ============================================================================
+   CONFIG — ÚNICO LUGAR QUE PRECISA SER EDITADO NO DIA A DIA
+   ----------------------------------------------------------------------------
+   Todo texto que aparece em mais de um lugar do site (data, horários,
+   endereços, prazo de confirmação, WhatsApp e dados do Pix) vem daqui.
+   Troque o valor entre aspas e salve — o site inteiro se atualiza sozinho,
+   sem precisar procurar o mesmo texto em vários lugares do HTML.
+   ============================================================================ */
+const CONFIG = {
 
-/* URL do seu Google Apps Script (Web App), usado como backend gratuito do mural de presentes.
-   Troque pela URL que você vai gerar seguindo o guia enviado junto com este arquivo.
-   Ex: "https://script.google.com/macros/s/AKfycb.../exec" */
-const SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxT_VSX3IIbf62V9uAvEwTLIbJBQJdyJC4raQuTzfrD5-jYOyO58RaRO0Y0sejZYKwMiQ/exec";
+  // ---- Casal ----
+  brideName: "Kamilly Victorya",
+  groomName: "Joao Pedro",
 
+  // ---- Cerimônia no cartório ----
+  // weddingDateISO alimenta a contagem regressiva (formato AAAA-MM-DDTHH:MM:SS-03:00)
+  weddingDateISO: "2026-09-17T16:30:00-03:00",
+  weddingDateTitle: "17 de setembro de 2026",   // aparece no card "Nosso Casamento"
+  weddingWeekday: "(quinta-feira)",
+  weddingDateFull: "quinta-feira, 17 de setembro de 2026", // aparece no topo (hero)
+  weddingTimeTitle: "Às 16h30",
+  weddingArrivalText: "Chegue com pelo menos 10 minutos de antecedência (às 16h20).",
+  cartorioName: "Cartório Silva",
+  cartorioAddressHtml: "Av. 85, 2451 — Qd. 231 — St. Marista<br>Goiânia — GO, 74160-010",
+
+  // ---- Jantar (depois do "sim") ----
+  dinnerAddress: "Av. Nadra Bufaiçal, Qd. 85 Lt.21",
+  dinnerCity: "St. Faicalville — Goiânia — GO, 74350-750",
+  dinnerTimeTitle: "Às 18h00",
+
+  // ---- Confirmação de presença (RSVP) ----
+  rsvpDeadline: "11 de setembro de 2026",
+
+  // ---- Contato ----
+  // Somente números, com DDI 55 + DDD + telefone (usado no link do WhatsApp)
+  whatsappNumber: "556293088589",
+
+  // ---- Rodapé ----
+  footerLine: "17 de setembro de 2026 · Cartório Silva, Av. 85, 2451, St. Marista, Goiânia — GO",
+
+  // ---- Pix (recebimento dos presentes) ----
+  pix: {
+    keyDisplay: "62 93088589",             // como aparece na tela, para o convidado ler
+    keyRaw: "+556293088589",               // chave tipo telefone, formato E.164 exigido pelo Pix
+    receiverName: "JOAO PEDRO E KAMILLY",  // máx. 25 caracteres, sem acentos
+    receiverCity: "GOIANIA"                // máx. 15 caracteres, sem acentos
+  },
+
+  // ---- Backend (Google Sheets via Apps Script) ----
+  // Mesmo link usado para o mural de presentes e para o RSVP (o script separa
+  // os dados em abas diferentes automaticamente, veja o arquivo Code.gs).
+  sheetsApiUrl: "https://script.google.com/macros/s/AKfycbxT_VSX3IIbf62V9uAvEwTLIbJBQJdyJC4raQuTzfrD5-jYOyO58RaRO0Y0sejZYKwMiQ/exec"
+};
+
+/* Aliases usados no restante do código (não precisam ser editados). */
+const SHEETS_API_URL = CONFIG.sheetsApiUrl;
+const PIX_KEY_DISPLAY = CONFIG.pix.keyDisplay;
+const PIX_KEY_RAW = CONFIG.pix.keyRaw;
+const RECEIVER_NAME = CONFIG.pix.receiverName;
+const RECEIVER_CITY = CONFIG.pix.receiverCity;
+
+/* Aplica o CONFIG acima em todos os textos da página que dependem dele.
+   Roda uma única vez, assim que a página carrega. */
+function applyConfig(){
+  document.title = `${CONFIG.brideName} & ${CONFIG.groomName} — ${CONFIG.weddingDateTitle}`;
+
+  document.getElementById("cfg-bride-name").textContent = CONFIG.brideName;
+  document.getElementById("cfg-groom-name").textContent = CONFIG.groomName;
+  document.getElementById("cfg-wedding-date-full").textContent = CONFIG.weddingDateFull;
+
+  document.getElementById("cfg-date-title").textContent = CONFIG.weddingDateTitle;
+  document.getElementById("cfg-weekday").textContent = CONFIG.weddingWeekday;
+  document.getElementById("cfg-time-title").textContent = CONFIG.weddingTimeTitle;
+  document.getElementById("cfg-arrival-text").textContent = CONFIG.weddingArrivalText;
+  document.getElementById("cfg-cartorio-name").textContent = CONFIG.cartorioName;
+  document.getElementById("cfg-cartorio-address").innerHTML = CONFIG.cartorioAddressHtml;
+
+  document.getElementById("cfg-dinner-address").textContent = CONFIG.dinnerAddress;
+  document.getElementById("cfg-dinner-city").textContent = CONFIG.dinnerCity;
+  document.getElementById("cfg-dinner-time").textContent = CONFIG.dinnerTimeTitle;
+
+  document.getElementById("cfg-rsvp-deadline").textContent = CONFIG.rsvpDeadline;
+  document.getElementById("cfg-whatsapp-link").href = `https://wa.me/${CONFIG.whatsappNumber}`;
+
+  document.getElementById("cfg-footer-names").textContent = `${CONFIG.brideName} & ${CONFIG.groomName}`;
+  document.getElementById("cfg-footer-line").textContent = CONFIG.footerLine;
+}
+applyConfig();
+
+/* ============================================================================
+   LISTA DE PRESENTES
+   ----------------------------------------------------------------------------
+   Cada linha é um presente. Para editar:
+     - Adicionar um presente novo: copie uma linha inteira, cole em qualquer
+       lugar da lista e troque "id" (não pode repetir), "cat", "name" e "price".
+     - Remover um presente: apague a linha inteira.
+     - Mudar preço: troque só o número depois de "price:".
+   O "cat" (categoria) precisa ser exatamente um destes textos, pois eles
+   controlam os filtros da página — veja a lista em CATEGORIES logo abaixo:
+     "Até R$100" | "R$100 a R$250" | "R$250 a R$500" | "R$500 ou mais"
+   ============================================================================ */
 const GIFTS = [
   {id:"g01", cat:"Até R$100", name:"Toma aqui os 50 reais", price:50},
 
@@ -511,8 +775,9 @@ const GIFTS = [
 
 const CATEGORIES = ["Todos","Até R$100","R$100 a R$250","R$250 a R$500","R$500 ou mais"];
 
-/* ===================== COUNTDOWN ===================== */
-const WEDDING_DATE = new Date("2026-09-17T16:30:00-03:00");
+/* ===================== CONTAGEM REGRESSIVA ===================== */
+// Usa a data definida em CONFIG.weddingDateISO — não precisa editar aqui.
+const WEDDING_DATE = new Date(CONFIG.weddingDateISO);
 
 function updateCountdown(){
   const now = new Date();
@@ -530,6 +795,75 @@ function updateCountdown(){
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+/* ============================================================================
+   CONFIRMAÇÃO DE PRESENÇA (RSVP)
+   ----------------------------------------------------------------------------
+   Fluxo: convidado digita o nome, escolhe "Vou ao cartório" ou "Vou apenas
+   ao jantar", e ao confirmar enviamos {type:"rsvp", name, attending, date}
+   para o backend (Code.gs), que grava numa aba separada da planilha.
+   Os textos dos dois cartões de opção estão direto no HTML, na seção
+   id="confirmar" — procure por "rsvp-option" se quiser reescrevê-los.
+   ============================================================================ */
+const rsvpNameEl = document.getElementById("rsvp-name");
+const rsvpSubmitEl = document.getElementById("rsvp-submit");
+const rsvpMsgEl = document.getElementById("rsvp-msg");
+const rsvpOptionEls = document.querySelectorAll(".rsvp-option");
+let rsvpChoice = null;
+
+const RSVP_LABELS = {
+  cartorio: "Vou ao cartório",
+  jantar: "Vou apenas ao jantar"
+};
+
+function updateRsvpButtonState(){
+  const nameOk = rsvpNameEl.value.trim().length > 1;
+  rsvpSubmitEl.disabled = !(nameOk && rsvpChoice);
+}
+
+rsvpOptionEls.forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    rsvpOptionEls.forEach(b=>b.classList.remove("selected"));
+    btn.classList.add("selected");
+    rsvpChoice = btn.dataset.value;
+    updateRsvpButtonState();
+  });
+});
+rsvpNameEl.addEventListener("input", updateRsvpButtonState);
+
+rsvpSubmitEl.addEventListener("click", async ()=>{
+  const name = rsvpNameEl.value.trim();
+  if(!name || !rsvpChoice) return;
+
+  rsvpSubmitEl.disabled = true;
+  rsvpSubmitEl.textContent = "Enviando...";
+
+  const entry = {
+    type: "rsvp",
+    name: name,
+    attending: rsvpChoice,
+    date: new Date().toISOString()
+  };
+
+  let saved = false;
+  try{
+    if(SHEETS_API_URL && !SHEETS_API_URL.includes("COLE_AQUI")){
+      const res = await fetch(SHEETS_API_URL, {
+        method: "POST",
+        body: JSON.stringify(entry)
+      });
+      saved = res.ok;
+    }
+  }catch(err){
+    saved = false;
+  }
+
+  rsvpMsgEl.textContent = saved
+    ? `Obrigado, ${name}! Sua presença foi confirmada (${RSVP_LABELS[rsvpChoice]}). Estamos ansiosos para celebrar com você! 💙`
+    : `Não conseguimos registrar sua confirmação agora. Se preferir, confirme pelo WhatsApp pelo link abaixo.`;
+  rsvpMsgEl.classList.add("show");
+  rsvpSubmitEl.textContent = "Presença confirmada ✓";
+});
 
 /* ===================== RENDER GIFT LIST ===================== */
 const listEl = document.getElementById("gift-list");
@@ -567,7 +901,7 @@ function renderList(){
 
   listEl.innerHTML = "";
   if(filtered.length === 0){
-    listEl.innerHTML = '<p style="padding:40px 4px; color:var(--forest-soft);">Nenhum presente encontrado.</p>';
+    listEl.innerHTML = '<p style="padding:40px 4px; color:var(--ink); text-align:center;">Nenhum presente encontrado.</p>';
     return;
   }
 
@@ -608,7 +942,13 @@ searchEl.addEventListener("input", renderList);
 renderTabs();
 renderList();
 
-/* ===================== PIX PAYLOAD (EMV / BR CODE) ===================== */
+/* ============================================================================
+   GERAÇÃO DO CÓDIGO PIX (padrão EMV / "BR Code")
+   ----------------------------------------------------------------------------
+   Monta o código que vira QR Code, seguindo o padrão oficial do Pix.
+   Não precisa mexer aqui — os dados usados (chave, nome, cidade) vêm do
+   CONFIG.pix lá no topo do arquivo.
+   ============================================================================ */
 function crc16(payload){
   let crc = 0xFFFF;
   for(let i=0; i<payload.length; i++){
@@ -712,7 +1052,7 @@ generateBtn.addEventListener("click", ()=>{
       correctLevel: QRCode.CorrectLevel.M
     });
   }catch(e){
-    qrTarget.innerHTML = '<p style="font-size:0.8rem; color:var(--forest-soft);">Não foi possível gerar o QR Code agora. Use o código Pix copiável abaixo.</p>';
+    qrTarget.innerHTML = '<p style="font-size:0.8rem; color:var(--ink);">Não foi possível gerar o QR Code agora. Use o código Pix copiável abaixo.</p>';
   }
 
   formStep.style.display = "none";
@@ -725,7 +1065,6 @@ copyBtn.addEventListener("click", async ()=>{
     copyBtn.textContent = "Código copiado!";
     setTimeout(()=> copyBtn.textContent = "Copiar código Pix", 2000);
   }catch(e){
-    // fallback: seleciona o texto para cópia manual
     const range = document.createRange();
     range.selectNodeContents(pixCodeText);
     const sel = window.getSelection();
@@ -740,6 +1079,7 @@ confirmBtn.addEventListener("click", async ()=>{
   confirmBtn.textContent = "Registrando...";
 
   const entry = {
+    type: "gift",
     giftName: currentGift.name,
     price: currentGift.price,
     giver: giver,
@@ -749,7 +1089,6 @@ confirmBtn.addEventListener("click", async ()=>{
   let saved = false;
   try{
     if(SHEETS_API_URL && !SHEETS_API_URL.includes("COLE_AQUI")){
-      // body como string simples evita pre-flight CORS no Apps Script
       const res = await fetch(SHEETS_API_URL, {
         method: "POST",
         body: JSON.stringify(entry)
@@ -762,7 +1101,7 @@ confirmBtn.addEventListener("click", async ()=>{
 
   confirmedIds.add(currentGift.id);
   confirmMsg.textContent = saved
-    ? `Presente "${currentGift.name}" registrado em nome de ${giver}. Muito obrigado! 💛`
+    ? `Presente "${currentGift.name}" registrado em nome de ${giver}. Muito obrigado! 💙`
     : `Não conseguimos registrar no mural agora (verifique a URL do backend em SHEETS_API_URL). Mas fique tranquilo(a): o Pix já foi feito normalmente.`;
   confirmMsg.classList.add("show");
   confirmBtn.textContent = "Presente confirmado ✓";
@@ -776,7 +1115,7 @@ async function loadRegistry(){
   const listWrap = document.getElementById("registry-list");
 
   if(!SHEETS_API_URL || SHEETS_API_URL.includes("COLE_AQUI")){
-    listWrap.innerHTML = '<div class="registry-empty">Mural ainda não conectado. Siga o guia "backend-mural-presentes.md" para ligar sua planilha do Google e ver os presentes confirmados aqui.</div>';
+    listWrap.innerHTML = '<div class="registry-empty">Mural ainda não conectado. Siga o guia enviado junto com este arquivo para ligar sua planilha do Google e ver os presentes confirmados aqui.</div>';
     return;
   }
 
