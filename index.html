@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Pedro & Kamilly Victorya — 17 de setembro de 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest: #223626;
+    --forest-deep: #16241a;
+    --forest-soft: #3f5945;
+    --cream: #F4F0E4;
+    --ivory: #FBF9F3;
+    --gold: #AD8B57;
+    --gold-soft: #D9C9A3;
+    --ink: #221F1A;
+    --line: rgba(34,54,38,0.16);
+    --shadow: 0 18px 40px rgba(22,36,26,0.14);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Jost', sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    color:var(--forest-deep);
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,249,243,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto; padding:18px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .monogram{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.5rem; letter-spacing:0.06em; color:var(--forest-deep);
+  }
+  .monogram span{color:var(--gold);}
+  nav.links{display:flex; gap:36px;}
+  nav.links a{
+    font-size:0.92rem; letter-spacing:0.02em; color:var(--forest);
+    position:relative; padding-bottom:4px;
+    transition:color .2s ease;
+  }
+  nav.links a::after{
+    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
+    background:var(--gold); transition:width .25s ease;
+  }
+  nav.links a:hover{color:var(--forest-deep);}
+  nav.links a:hover::after{width:100%;}
+  .nav-toggle{display:none; background:none; border:none; font-size:1.6rem; color:var(--forest-deep);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex; align-items:flex-end;
+    background:
+      radial-gradient(1100px 700px at 15% 10%, rgba(255,255,255,0.06), transparent 60%),
+      linear-gradient(180deg, rgba(22,36,26,0.55) 0%, rgba(22,36,26,0.30) 40%, rgba(22,36,26,0.78) 100%),
+      var(--forest-deep);
+    overflow:hidden;
+    padding:120px 0 64px;
+  }
+  .hero-branches{
+    position:absolute; inset:0; opacity:0.55; pointer-events:none;
+  }
+  .hero-inner{
+    position:relative; z-index:2; max-width:1120px; margin:0 auto; padding:0 32px; width:100%;
+  }
+  .hero-eyebrow{
+    color:var(--gold-soft); font-size:0.95rem; letter-spacing:0.04em; margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(3.2rem, 9vw, 7rem);
+    line-height:0.98;
+    color:var(--ivory);
+    font-weight:400;
+    letter-spacing:0.005em;
+  }
+  .hero h1 em{font-style:italic; color:var(--gold-soft); font-weight:400;}
+  .hero-sub{
+    margin-top:26px; color:rgba(251,249,243,0.86);
+    font-size:1.05rem; max-width:36ch;
+  }
+  .hero-cta{
+    margin-top:38px; display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:14px 28px; font-size:0.92rem; letter-spacing:0.02em;
+    border-radius:2px; border:1px solid transparent;
+    transition:all .2s ease;
+  }
+  .btn-primary{background:var(--gold); color:var(--forest-deep);}
+  .btn-primary:hover{background:var(--gold-soft);}
+  .btn-outline{border-color:rgba(251,249,243,0.55); color:var(--ivory);}
+  .btn-outline:hover{background:rgba(251,249,243,0.1); border-color:var(--ivory);}
+  .btn-dark{background:var(--forest-deep); color:var(--ivory);}
+  .btn-dark:hover{background:var(--forest);}
+  .btn-ghost{border-color:var(--line); color:var(--forest-deep); background:transparent;}
+  .btn-ghost:hover{background:rgba(173,139,87,0.08); border-color:var(--gold);}
+  .btn:disabled{opacity:0.5; cursor:not-allowed;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  section{padding:110px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head .kicker{color:var(--gold); font-size:0.9rem; margin-bottom:10px; display:block;}
+  .section-head h2{font-size:clamp(2.2rem, 4vw, 3.1rem); font-weight:500;}
+  .section-head p{margin-top:16px; color:var(--forest-soft); font-size:1.02rem;}
+
+  /* ---------- WEDDING INFO ---------- */
+  .info{background:var(--ivory); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .info-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:72px; align-items:start;}
+  .detail-card{
+    display:flex; gap:20px; padding:26px 0; border-bottom:1px solid var(--line);
+  }
+  .detail-card:last-child{border-bottom:none;}
+  .detail-icon{
+    width:46px; height:46px; border-radius:50%;
+    border:1px solid var(--gold); color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; font-family:'Cormorant Garamond', serif; font-size:1.3rem;
+  }
+  .detail-card h3{font-size:1.3rem; font-weight:500; margin-bottom:4px;}
+  .detail-card p{color:var(--forest-soft); font-size:0.98rem;}
+  .arrival-note{
+    margin-top:6px; padding:10px 14px; background:rgba(173,139,87,0.12);
+    display:inline-block; font-size:0.88rem; color:var(--forest-deep); border-left:2px solid var(--gold);
+  }
+
+  .countdown-box{
+    background:var(--forest-deep); color:var(--ivory);
+    padding:44px 36px; position:relative;
+  }
+  .countdown-box .serif{font-size:1.4rem; margin-bottom:26px; color:var(--gold-soft);}
+  .countdown-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; text-align:center;}
+  .countdown-grid div span{
+    display:block; font-family:'Cormorant Garamond', serif; font-size:2.6rem; font-weight:500;
+  }
+  .countdown-grid div small{font-size:0.72rem; letter-spacing:0.08em; color:rgba(251,249,243,0.6);}
+  .countdown-grid div{border-right:1px solid rgba(251,249,243,0.15);}
+  .countdown-grid div:last-child{border-right:none;}
+
+  @media (max-width:860px){
+    .info-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- GIFTS ---------- */
+  .gifts{background:var(--cream);}
+  .gift-toolbar{
+    display:flex; gap:18px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    margin-bottom:36px;
+  }
+  .search-input{
+    flex:1; min-width:240px; padding:13px 18px; border:1px solid var(--line);
+    background:var(--ivory); font-family:inherit; font-size:0.95rem; color:var(--ink);
+    border-radius:2px;
+  }
+  .search-input:focus{outline:none; border-color:var(--gold);}
+  .tabs{display:flex; gap:8px; flex-wrap:wrap;}
+  .tab-btn{
+    padding:9px 18px; border:1px solid var(--line); background:var(--ivory);
+    font-size:0.86rem; color:var(--forest-soft); border-radius:2px; transition:all .2s ease;
+  }
+  .tab-btn.active, .tab-btn:hover{background:var(--forest-deep); color:var(--ivory); border-color:var(--forest-deep);}
+
+  .gift-category{margin-bottom:12px;}
+  .gift-category-title{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:14px 0 10px; border-bottom:1px solid var(--gold-soft);
+    margin-top:38px;
+  }
+  .gift-category-title h3{font-size:1.5rem; font-weight:500;}
+  .gift-category-title span{font-size:0.85rem; color:var(--forest-soft);}
+
+  .gift-row{
+    display:flex; align-items:center; gap:18px; padding:18px 4px;
+    border-bottom:1px solid var(--line);
+  }
+  .gift-badge{
+    width:48px; height:48px; border-radius:50%; flex-shrink:0;
+    background:var(--forest-deep); color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant Garamond', serif; font-size:1.3rem;
+  }
+  .gift-info{flex:1; min-width:0;}
+  .gift-info h4{font-size:1.05rem; font-weight:500; color:var(--ink); margin-bottom:2px;}
+  .gift-info p{font-size:0.88rem; color:var(--forest-soft);}
+  .gift-status{font-size:0.78rem; color:var(--gold); margin-top:3px; display:none;}
+  .gift-row.confirmed .gift-status{display:block;}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{background:var(--forest-deep); color:var(--ivory);}
+  .how .section-head h2{color:var(--ivory);}
+  .how .section-head p{color:rgba(251,249,243,0.72);}
+  .how .section-head .kicker{color:var(--gold-soft);}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:44px;}
+  .step-num{font-family:'Cormorant Garamond', serif; font-size:2.4rem; color:var(--gold-soft); margin-bottom:14px;}
+  .step h3{color:var(--ivory); font-size:1.25rem; margin-bottom:10px;}
+  .step p{color:rgba(251,249,243,0.68); font-size:0.94rem;}
+  @media (max-width:820px){.steps{grid-template-columns:1fr; gap:36px;}}
+
+  /* ---------- REGISTRY / CONFIRMED ---------- */
+  .registry{background:var(--ivory); border-top:1px solid var(--line);}
+  .registry-list{border-top:1px solid var(--line);}
+  .registry-item{
+    display:flex; justify-content:space-between; gap:16px; padding:16px 4px;
+    border-bottom:1px solid var(--line); font-size:0.92rem;
+  }
+  .registry-item .r-gift{color:var(--ink); font-weight:500;}
+  .registry-item .r-from{color:var(--forest-soft);}
+  .registry-empty{padding:28px 4px; color:var(--forest-soft); font-size:0.92rem;}
+
+  footer{
+    background:var(--forest-deep); color:rgba(251,249,243,0.6);
+    padding:48px 0; text-align:center; font-size:0.85rem;
+  }
+  footer .monogram2{font-family:'Cormorant Garamond', serif; color:var(--gold-soft); font-size:1.3rem; margin-bottom:10px;}
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(22,36,26,0.6);
+    display:none; align-items:center; justify-content:center; z-index:100; padding:24px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--ivory); max-width:440px; width:100%; max-height:88vh; overflow-y:auto;
+    padding:38px; position:relative; box-shadow:var(--shadow);
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; background:none; border:none;
+    font-size:1.4rem; color:var(--forest-soft); line-height:1;
+  }
+  .modal h3{font-size:1.6rem; margin-bottom:4px;}
+  .modal .modal-price{color:var(--gold); font-size:1.05rem; margin-bottom:22px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:0.85rem; color:var(--forest-soft); margin-bottom:6px;}
+  .field input{
+    width:100%; padding:12px 14px; border:1px solid var(--line); background:var(--cream);
+    font-family:inherit; font-size:0.95rem; border-radius:2px;
+  }
+  .field input:focus{outline:none; border-color:var(--gold);}
+  .qr-wrap{display:none; text-align:center; margin-top:8px;}
+  .qr-wrap.show{display:block;}
+  #qrcode-canvas{display:inline-block; margin:14px auto; padding:14px; background:#fff;}
+  .pix-code-box{
+    background:var(--cream); border:1px solid var(--line); padding:10px 12px;
+    font-size:0.76rem; word-break:break-all; color:var(--forest-soft); margin:12px 0;
+    max-height:70px; overflow-y:auto;
+  }
+  .modal-note{font-size:0.82rem; color:var(--forest-soft); margin-top:14px; line-height:1.55;}
+  .confirm-msg{
+    display:none; margin-top:16px; padding:12px 14px; background:rgba(173,139,87,0.15);
+    border-left:2px solid var(--gold); font-size:0.88rem; color:var(--forest-deep);
+  }
+  .confirm-msg.show{display:block;}
+
+  @media (max-width:640px){
+    nav.links{display:none;}
+    .hero{padding:100px 0 48px;}
+    section{padding:76px 0;}
+    .wrap{padding:0 20px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="monogram">JP <span>&amp;</span> KV</div>
+    <nav class="links">
+      <a href="#inicio">início</a>
+      <a href="#casamento">casamento</a>
+      <a href="#presentes">lista de presentes</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="inicio">
+  <svg class="hero-branches" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#D9C9A3" stroke-width="1.2" fill="none" opacity="0.5">
+      <path d="M-20,60 C120,110 180,40 260,90 C330,130 300,200 380,220"/>
+      <path d="M40,120 C90,150 100,190 70,230"/>
+      <path d="M1220,700 C1080,650 1040,720 950,670 C880,630 910,560 830,540"/>
+      <path d="M1150,640 C1100,610 1090,570 1120,530"/>
+    </g>
+    <g fill="#D9C9A3" opacity="0.45">
+      <circle cx="255" cy="88" r="5"/><circle cx="300" cy="150" r="4"/><circle cx="378" cy="219" r="5"/>
+      <circle cx="945" cy="668" r="5"/><circle cx="905" cy="600" r="4"/><circle cx="828" cy="538" r="5"/>
+    </g>
+  </svg>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Faltam <span id="hero-days">--</span> dias · quinta-feira, 17 de setembro de 2026</span>
+    <h1>João Pedro <em>&amp;</em><br>Kamilly Victorya</h1>
+    <p class="hero-sub">Vamos nos casar no civil e adorávamos ter você por perto para celebrar com a gente.</p>
+    <div class="hero-cta">
+      <a href="#presentes" class="btn btn-primary">Lista de presentes</a>
+    </div>
+  </div>
+</section>
+
+<section class="info" id="casamento">
+  <div class="wrap info-grid">
+    <div>
+      <div class="section-head" style="margin-bottom:8px;">
+        <span class="kicker">o casamento</span>
+        <h2>Um sim simples, cercado de gente querida</h2>
+        <p>A cerimônia será no cartório, de forma intimista. Contamos com a sua presença para tornar esse dia ainda mais especial.</p>
+      </div>
+
+      <div class="detail-card">
+        <div class="detail-icon">&#9825;</div>
+        <div>
+          <h3>Cartório Silva</h3>
+          <p>Av. 85, 2451 — Qd. 231 — St. Marista<br>Goiânia — GO, 74160-010</p>
+        </div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">&#128337;</div>
+        <div>
+          <h3>17 de setembro de 2026, às 16h30</h3>
+          <p>Quinta-feira</p>
+          <span class="arrival-note">Pedimos que chegue com 15 minutos de antecedência, às 16h15.</span>
+        </div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-icon">&#10024;</div>
+        <div>
+          <h3>Traje</h3>
+          <p>Esporte fino — venha confortável e elegante.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="countdown-box">
+      <div class="serif">Contagem regressiva</div>
+      <div class="countdown-grid">
+        <div><span id="cd-days">00</span><small>dias</small></div>
+        <div><span id="cd-hours">00</span><small>horas</small></div>
+        <div><span id="cd-min">00</span><small>min</small></div>
+        <div><span id="cd-sec">00</span><small>seg</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gifts" id="presentes">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">lista de presentes</span>
+      <h2>Um mimo para o início da nossa casa</h2>
+      <p>Escolha um presente, aponte a câmera do seu banco para o QR Code Pix e conclua o pagamento diretamente para a gente. Simples, seguro e sem taxas de intermediário.</p>
+    </div>
+
+    <div class="gift-toolbar">
+      <input class="search-input" id="search-input" type="text" placeholder="Buscar entre 36 presentes">
+      <div class="tabs" id="tabs"></div>
+    </div>
+
+    <div id="gift-list"></div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">como presentear</span>
+      <h2>Em três passos, simples assim</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Escolha o presente</h3>
+        <p>Navegue pela lista e clique em "Presentear" no item que você quiser dar de presente para o casal.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Pague com Pix</h3>
+        <p>Escaneie o QR Code gerado na hora, ou copie o código Pix, direto no app do seu banco.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Confirme para o casal</h3>
+        <p>Depois do pagamento, deixe seu nome registrado para que João Pedro e Kamilly saibam quem os presenteou.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="registry">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:24px;">
+      <span class="kicker">mural de presentes</span>
+      <h2>Presentes já confirmados</h2>
+      <p>Registro compartilhado dos presentes recebidos — visível para o casal e para os convidados.</p>
+    </div>
+    <div class="registry-list" id="registry-list">
+      <div class="registry-empty">Nenhum presente confirmado ainda. Seja o primeiro!</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="monogram2">JP &amp; KV</div>
+  <p>João Pedro &amp; Kamilly Victorya · 17 de setembro de 2026 · Cartório Silva, Av. 85, 2451, St. Marista, Goiânia — GO</p>
+</footer>
+
+<!-- ---------- MODAL ---------- -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close" aria-label="Fechar">&times;</button>
+    <h3 id="modal-title">Presente</h3>
+    <div class="modal-price" id="modal-price">R$ 0</div>
+
+    <div id="form-step">
+      <div class="field">
+        <label for="giver-name">Seu nome (para o casal saber quem presenteou)</label>
+        <input type="text" id="giver-name" placeholder="Ex: Ana Souza">
+      </div>
+      <button class="btn btn-dark" id="generate-btn" style="width:100%; justify-content:center;">Gerar QR Code Pix</button>
+    </div>
+
+    <div class="qr-wrap" id="qr-wrap">
+      <div id="qrcode-canvas"></div>
+      <p style="font-size:0.85rem; color:var(--forest-soft);">Chave Pix (telefone) · Nubank<br><strong id="pix-key-display" style="color:var(--forest-deep);">62 93088589</strong></p>
+      <div class="pix-code-box" id="pix-code-text"></div>
+      <button class="btn btn-ghost" id="copy-btn" style="width:100%; justify-content:center;">Copiar código Pix</button>
+      <button class="btn btn-primary" id="confirm-btn" style="width:100%; justify-content:center; margin-top:10px;">Já paguei — confirmar presente</button>
+      <p class="modal-note">O valor e a chave já vêm preenchidos no QR Code. Basta abrir o app do seu banco, escolher "Pagar com Pix" → "Ler QR Code" e confirmar.</p>
+      <div class="confirm-msg" id="confirm-msg"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* ===================== DATA ===================== */
+const PIX_KEY_DISPLAY = "62 93088589";
+const PIX_KEY_RAW = "+556293088589"; // chave tipo telefone, formato E.164 exigido pelo Pix
+const RECEIVER_NAME = "JOAO PEDRO E KAMILLY"; // max 25 caracteres, sem acentos
+const RECEIVER_CITY = "GOIANIA"; // max 15 caracteres, sem acentos
+
+/* URL do seu Google Apps Script (Web App), usado como backend gratuito do mural de presentes.
+   Troque pela URL que você vai gerar seguindo o guia enviado junto com este arquivo.
+   Ex: "https://script.google.com/macros/s/AKfycb.../exec" */
+const SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxT_VSX3IIbf62V9uAvEwTLIbJBQJdyJC4raQuTzfrD5-jYOyO58RaRO0Y0sejZYKwMiQ/exec";
+
+const GIFTS = [
+  {id:"g01", cat:"Até R$100", name:"Toma aqui os 50 reais", price:50},
+
+  {id:"g02", cat:"R$100 a R$250", name:"Comida para os filhos de 4 patas", price:100},
+  {id:"g03", cat:"R$100 a R$250", name:"Toma aqui os 100 reais", price:100},
+  {id:"g04", cat:"R$100 a R$250", name:"Tábua de corte", price:150},
+  {id:"g05", cat:"R$100 a R$250", name:"Faqueiro para cortar o problema pela raiz", price:150},
+  {id:"g06", cat:"R$100 a R$250", name:"Relógio para a noiva não se atrasar", price:150},
+  {id:"g07", cat:"R$100 a R$250", name:"Calmantes para o dia do casamento", price:150},
+  {id:"g08", cat:"R$100 a R$250", name:"Taxa para NÃO jogar o buquê na sua direção", price:150},
+  {id:"g09", cat:"R$100 a R$250", name:"Jogar o buquê na sua direção", price:150},
+  {id:"g10", cat:"R$100 a R$250", name:"Mangueira", price:150},
+  {id:"g11", cat:"R$100 a R$250", name:"Conjunto de ramequim de porcelana", price:160},
+  {id:"g12", cat:"R$100 a R$250", name:"Dancinha do TikTok com o casal", price:160},
+  {id:"g13", cat:"R$100 a R$250", name:"Boleira", price:170},
+  {id:"g14", cat:"R$100 a R$250", name:"Varal de chão", price:189.90},
+  {id:"g15", cat:"R$100 a R$250", name:"Taxa para perguntar quando o casal vai ter filhos", price:200},
+  {id:"g16", cat:"R$100 a R$250", name:"Primeiro lugar na fila do buffet", price:200},
+
+  {id:"g17", cat:"R$250 a R$500", name:"Limpador multiuso completo", price:329.90},
+  {id:"g18", cat:"R$250 a R$500", name:"Liquidificador", price:350},
+  {id:"g19", cat:"R$250 a R$500", name:"Furadeira", price:350},
+  {id:"g20", cat:"R$250 a R$500", name:"Jogo de cama king", price:480},
+  {id:"g21", cat:"R$250 a R$500", name:"Armário organizador multiuso", price:489.90},
+
+  {id:"g22", cat:"R$500 ou mais", name:"Churrasqueira portátil", price:500},
+  {id:"g23", cat:"R$500 ou mais", name:"Dia off da noiva com as amigas", price:500},
+  {id:"g24", cat:"R$500 ou mais", name:"Batedeira planetária", price:649.90},
+  {id:"g25", cat:"R$500 ou mais", name:"Cooktop a gás", price:689.90},
+  {id:"g26", cat:"R$500 ou mais", name:"Purificador de água", price:749.90},
+  {id:"g27", cat:"R$500 ou mais", name:"Kit básico de sobrevivência", price:850},
+  {id:"g28", cat:"R$500 ou mais", name:"Passeio de buggy pelas dunas de Ponta Negra", price:860},
+  {id:"g29", cat:"R$500 ou mais", name:"Dar pitaco/falar mal da festa", price:1040.90},
+  {id:"g30", cat:"R$500 ou mais", name:"Guarda-roupas", price:1500},
+  {id:"g31", cat:"R$500 ou mais", name:"Lavadora de alta pressão", price:1800},
+  {id:"g32", cat:"R$500 ou mais", name:"Televisão", price:2499.90},
+  {id:"g33", cat:"R$500 ou mais", name:"Ar-condicionado para o carro", price:2800},
+  {id:"g34", cat:"R$500 ou mais", name:"Mudar de casa", price:3500},
+  {id:"g35", cat:"R$500 ou mais", name:"Notebook", price:3950.90},
+  {id:"g36", cat:"R$500 ou mais", name:"Taxa para ter a cara de pau de ir de branco", price:10040.50},
+];
+
+const CATEGORIES = ["Todos","Até R$100","R$100 a R$250","R$250 a R$500","R$500 ou mais"];
+
+/* ===================== COUNTDOWN ===================== */
+const WEDDING_DATE = new Date("2026-09-17T16:30:00-03:00");
+
+function updateCountdown(){
+  const now = new Date();
+  let diff = WEDDING_DATE - now;
+  if(diff < 0) diff = 0;
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff / (1000*60*60)) % 24);
+  const mins = Math.floor((diff / (1000*60)) % 60);
+  const secs = Math.floor((diff / 1000) % 60);
+  document.getElementById("cd-days").textContent = String(days).padStart(2,"0");
+  document.getElementById("cd-hours").textContent = String(hours).padStart(2,"0");
+  document.getElementById("cd-min").textContent = String(mins).padStart(2,"0");
+  document.getElementById("cd-sec").textContent = String(secs).padStart(2,"0");
+  document.getElementById("hero-days").textContent = days;
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* ===================== RENDER GIFT LIST ===================== */
+const listEl = document.getElementById("gift-list");
+const tabsEl = document.getElementById("tabs");
+const searchEl = document.getElementById("search-input");
+let activeCat = "Todos";
+let confirmedIds = new Set();
+
+function currency(v){
+  return v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+}
+
+function initials(name){
+  return name.trim().charAt(0).toUpperCase();
+}
+
+function renderTabs(){
+  tabsEl.innerHTML = "";
+  CATEGORIES.forEach(cat=>{
+    const b = document.createElement("button");
+    b.className = "tab-btn" + (cat===activeCat ? " active" : "");
+    b.textContent = cat;
+    b.onclick = ()=>{ activeCat = cat; renderTabs(); renderList(); };
+    tabsEl.appendChild(b);
+  });
+}
+
+function renderList(){
+  const term = searchEl.value.trim().toLowerCase();
+  const filtered = GIFTS.filter(g=>{
+    const matchCat = activeCat === "Todos" || g.cat === activeCat;
+    const matchTerm = g.name.toLowerCase().includes(term);
+    return matchCat && matchTerm;
+  });
+
+  listEl.innerHTML = "";
+  if(filtered.length === 0){
+    listEl.innerHTML = '<p style="padding:40px 4px; color:var(--forest-soft);">Nenhum presente encontrado.</p>';
+    return;
+  }
+
+  const grouped = {};
+  filtered.forEach(g=>{
+    if(!grouped[g.cat]) grouped[g.cat] = [];
+    grouped[g.cat].push(g);
+  });
+
+  Object.keys(grouped).forEach(cat=>{
+    const catWrap = document.createElement("div");
+    catWrap.className = "gift-category";
+    catWrap.innerHTML = `<div class="gift-category-title"><h3>${cat}</h3><span>${grouped[cat].length} presente${grouped[cat].length>1?'s':''}</span></div>`;
+
+    grouped[cat].forEach(g=>{
+      const row = document.createElement("div");
+      row.className = "gift-row" + (confirmedIds.has(g.id) ? " confirmed" : "");
+      row.innerHTML = `
+        <div class="gift-badge">${initials(g.name)}</div>
+        <div class="gift-info">
+          <h4>${g.name}</h4>
+          <p>Presente único de ${currency(g.price)}</p>
+          <div class="gift-status">✓ Já presenteado</div>
+        </div>
+        <button class="btn btn-ghost gift-btn" data-id="${g.id}">Presentear</button>
+      `;
+      catWrap.appendChild(row);
+    });
+    listEl.appendChild(catWrap);
+  });
+
+  document.querySelectorAll(".gift-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=> openModal(btn.dataset.id));
+  });
+}
+
+searchEl.addEventListener("input", renderList);
+renderTabs();
+renderList();
+
+/* ===================== PIX PAYLOAD (EMV / BR CODE) ===================== */
+function crc16(payload){
+  let crc = 0xFFFF;
+  for(let i=0; i<payload.length; i++){
+    crc ^= payload.charCodeAt(i) << 8;
+    for(let b=0; b<8; b++){
+      if((crc & 0x8000) !== 0){
+        crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+      } else {
+        crc = (crc << 1) & 0xFFFF;
+      }
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4,"0");
+}
+
+function emvField(id, value){
+  const len = String(value.length).padStart(2,"0");
+  return `${id}${len}${value}`;
+}
+
+function sanitizeTxid(name){
+  const noAccents = name.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  const clean = noAccents.replace(/[^a-zA-Z0-9]/g,"").toUpperCase();
+  return (clean || "PRESENTE").substring(0,25);
+}
+
+function buildPixPayload(gift){
+  const merchantAccount = emvField("00","br.gov.bcb.pix") + emvField("01", PIX_KEY_RAW);
+  let payload = "";
+  payload += emvField("00","01");
+  payload += emvField("26", merchantAccount);
+  payload += emvField("52","0000");
+  payload += emvField("53","986");
+  payload += emvField("54", gift.price.toFixed(2));
+  payload += emvField("58","BR");
+  payload += emvField("59", RECEIVER_NAME.substring(0,25));
+  payload += emvField("60", RECEIVER_CITY.substring(0,15));
+  payload += emvField("62", emvField("05", sanitizeTxid(gift.name)));
+  payload += "6304";
+  const crc = crc16(payload);
+  return payload + crc;
+}
+
+/* ===================== MODAL ===================== */
+const overlay = document.getElementById("modal-overlay");
+const modalTitle = document.getElementById("modal-title");
+const modalPrice = document.getElementById("modal-price");
+const formStep = document.getElementById("form-step");
+const qrWrap = document.getElementById("qr-wrap");
+const giverInput = document.getElementById("giver-name");
+const generateBtn = document.getElementById("generate-btn");
+const confirmBtn = document.getElementById("confirm-btn");
+const copyBtn = document.getElementById("copy-btn");
+const confirmMsg = document.getElementById("confirm-msg");
+const pixCodeText = document.getElementById("pix-code-text");
+const pixKeyDisplay = document.getElementById("pix-key-display");
+
+let currentGift = null;
+let currentPayload = "";
+
+function openModal(giftId){
+  currentGift = GIFTS.find(g=>g.id === giftId);
+  if(!currentGift) return;
+  modalTitle.textContent = currentGift.name;
+  modalPrice.textContent = currency(currentGift.price);
+  pixKeyDisplay.textContent = PIX_KEY_DISPLAY;
+  giverInput.value = "";
+  formStep.style.display = "block";
+  qrWrap.classList.remove("show");
+  confirmMsg.classList.remove("show");
+  confirmBtn.disabled = false;
+  confirmBtn.textContent = "Já paguei — confirmar presente";
+  overlay.classList.add("open");
+}
+
+function closeModal(){
+  overlay.classList.remove("open");
+  currentGift = null;
+}
+
+document.getElementById("modal-close").onclick = closeModal;
+overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeModal(); });
+
+generateBtn.addEventListener("click", ()=>{
+  if(!giverInput.value.trim()){
+    giverInput.style.borderColor = "#b5453f";
+    giverInput.focus();
+    return;
+  }
+  giverInput.style.borderColor = "";
+  currentPayload = buildPixPayload(currentGift);
+  pixCodeText.textContent = currentPayload;
+
+  const qrTarget = document.getElementById("qrcode-canvas");
+  qrTarget.innerHTML = "";
+  try{
+    new QRCode(qrTarget, {
+      text: currentPayload,
+      width: 200,
+      height: 200,
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  }catch(e){
+    qrTarget.innerHTML = '<p style="font-size:0.8rem; color:var(--forest-soft);">Não foi possível gerar o QR Code agora. Use o código Pix copiável abaixo.</p>';
+  }
+
+  formStep.style.display = "none";
+  qrWrap.classList.add("show");
+});
+
+copyBtn.addEventListener("click", async ()=>{
+  try{
+    await navigator.clipboard.writeText(currentPayload);
+    copyBtn.textContent = "Código copiado!";
+    setTimeout(()=> copyBtn.textContent = "Copiar código Pix", 2000);
+  }catch(e){
+    // fallback: seleciona o texto para cópia manual
+    const range = document.createRange();
+    range.selectNodeContents(pixCodeText);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+});
+
+confirmBtn.addEventListener("click", async ()=>{
+  const giver = giverInput.value.trim() || "Anônimo";
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = "Registrando...";
+
+  const entry = {
+    giftName: currentGift.name,
+    price: currentGift.price,
+    giver: giver,
+    date: new Date().toISOString()
+  };
+
+  let saved = false;
+  try{
+    if(SHEETS_API_URL && !SHEETS_API_URL.includes("COLE_AQUI")){
+      // body como string simples evita pre-flight CORS no Apps Script
+      const res = await fetch(SHEETS_API_URL, {
+        method: "POST",
+        body: JSON.stringify(entry)
+      });
+      saved = res.ok;
+    }
+  }catch(err){
+    saved = false;
+  }
+
+  confirmedIds.add(currentGift.id);
+  confirmMsg.textContent = saved
+    ? `Presente "${currentGift.name}" registrado em nome de ${giver}. Muito obrigado! 💛`
+    : `Não conseguimos registrar no mural agora (verifique a URL do backend em SHEETS_API_URL). Mas fique tranquilo(a): o Pix já foi feito normalmente.`;
+  confirmMsg.classList.add("show");
+  confirmBtn.textContent = "Presente confirmado ✓";
+
+  renderList();
+  loadRegistry();
+});
+
+/* ===================== SHARED REGISTRY (mural de presentes) — Google Sheets via Apps Script ===================== */
+async function loadRegistry(){
+  const listWrap = document.getElementById("registry-list");
+
+  if(!SHEETS_API_URL || SHEETS_API_URL.includes("COLE_AQUI")){
+    listWrap.innerHTML = '<div class="registry-empty">Mural ainda não conectado. Siga o guia "backend-mural-presentes.md" para ligar sua planilha do Google e ver os presentes confirmados aqui.</div>';
+    return;
+  }
+
+  try{
+    const res = await fetch(SHEETS_API_URL);
+    if(!res.ok) throw new Error("Falha ao buscar dados");
+    const entries = await res.json();
+
+    if(!Array.isArray(entries) || entries.length === 0){
+      listWrap.innerHTML = '<div class="registry-empty">Nenhum presente confirmado ainda. Seja o primeiro!</div>';
+      confirmedIds = new Set();
+      return;
+    }
+
+    entries.sort((a,b)=> new Date(b.date) - new Date(a.date));
+
+    confirmedIds = new Set();
+    entries.forEach(en=>{
+      const found = GIFTS.find(g=>g.name === en.giftName);
+      if(found) confirmedIds.add(found.id);
+    });
+
+    listWrap.innerHTML = "";
+    entries.forEach(en=>{
+      const row = document.createElement("div");
+      row.className = "registry-item";
+      row.innerHTML = `<span class="r-gift">${en.giftName}</span><span class="r-from">de ${en.giver} · ${currency(Number(en.price))}</span>`;
+      listWrap.appendChild(row);
+    });
+
+    renderList();
+  }catch(err){
+    listWrap.innerHTML = '<div class="registry-empty">Não foi possível carregar o mural de presentes agora. Tente atualizar a página.</div>';
+  }
+}
+loadRegistry();
+</script>
+</body>
+</html>
